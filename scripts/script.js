@@ -26,30 +26,47 @@ var billsToHTML = function(billsArray){
 }
 
 var houseResponseHandler = function(apiResponse){
-	console.log(apiResponse.results)
+	// console.log(apiResponse.results)
 	var billsArray = apiResponse.results,
 		htmlString = '<h1>House Bills</h1>' + billsToHTML(billsArray)
 	houseColumn.innerHTML = htmlString
 }
 
 var senateResponseHandler = function(apiResponse){
-	console.log(apiResponse.results)
+	// console.log(apiResponse.results)
 	var billsArray = apiResponse.results,
 		htmlString = '<h1>Senate Bills</h1>' + billsToHTML(billsArray)
 	senateColumn.innerHTML = htmlString
 }
 
-var fetchSenateBills = function() {
-	var url = baseUrl + '&chamber=senate'
+var fetchSenateBills = function(searchQuery) {
+	var url = baseUrl + '&chamber=senate&query=' + searchQuery
 	var promise = $.getJSON(url)
 	promise.then(senateResponseHandler)
 }
 
-var fetchHouseBills = function() {
-	var url = baseUrl + '&chamber=house'
+var fetchHouseBills = function(searchQuery) {
+	var url = baseUrl + '&chamber=house&query=' + searchQuery
 	var promise = $.getJSON(url)
 	promise.then(houseResponseHandler)
 }
+
+var search = function (event){
+	if(event.keyCode === 13){
+		// example of searchQuery: query='united states of america'
+		// event.target is used so that this search function can be used for any target node
+		var searchQuery = event.target.value
+		fetchHouseBills(searchQuery)
+		fetchSenateBills(searchQuery)
+		event.target.value = ""
+		}
+
+	}
+
+//example of desired url baseUrl + query + transparency
+inputNode.addEventListener("keydown",search)
+
+
 
 fetchHouseBills()
 fetchSenateBills()
