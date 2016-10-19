@@ -1,0 +1,17 @@
+* {
+	box-sizing: border-box;
+}
+
+.bill-col {
+	display: inline-block;
+	vertical-align: top;
+}
+
+.bills-container, .bill-col {
+	font-size: 0:;
+}
+
+.bill-col {
+	font-size: medium;
+}
+
